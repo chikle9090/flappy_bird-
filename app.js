@@ -34,6 +34,8 @@ let cursors;
 let hasBumped = false;
 let isGameStarted = false;
 let messageToPlayer;
+let pipeGap = 250;
+
 
 function create() {
   const roads = this.physics.add.staticGroup();
@@ -92,34 +94,45 @@ function create() {
 
 
 function update() {
+
   if (cursors.up.isDown && !hasLanded && !hasBumped) {
     bird.setVelocityY(-160);
   }
 
   if (!hasLanded && !hasBumped) {
+
+    // RIGHT movement stays
     bird.body.velocity.x = 50;
+
+    // LEFT arrow pressed = move left
+    if (cursors.left.isDown) {
+      bird.body.velocity.x = -50;
+    }
+
   } else {
     bird.body.velocity.x = 0;
   }
-   if (cursors.space.isDown && !isGameStarted) {
+
+  if (cursors.space.isDown && !isGameStarted) {
     isGameStarted = true;
   }
-   if (!isGameStarted) {
+
+  if (!isGameStarted) {
     bird.setVelocityY(-160);
   }
-   if (cursors.space.isDown && !isGameStarted) {
+
+  if (cursors.space.isDown && !isGameStarted) {
     isGameStarted = true;
     messageToPlayer.text =
-    'Instructions: Press the "^" button to stay upright\nAnd don\'t hit the columns or ground';
+      'Instructions: Press the "^" button to stay upright\nAnd don\'t hit the columns or ground';
   }
-   if (hasLanded || hasBumped) {
+
+  if (hasLanded || hasBumped) {
     messageToPlayer.text = `Oh no! You crashed!`;
   }
-    if (bird.x > 750) {
+
+  if (bird.x > 750) {
     messageToPlayer.text = `Congrats! You won!`;
-  }
-   if (bird.x > 750) {
     bird.setVelocityY(40);
-    messageToPlayer.text = `Congrats! You won!`;
   }
 }
